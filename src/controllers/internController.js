@@ -33,6 +33,7 @@ const createintern = async function(req,res){
         return res.status(400).send({status:false,message:"please input 10 digit number"})
 
         if(!data.collegeId)
+        if(!isValidMobile(data.collegeId))
         return res.status(400).send({status:false,msg:"please provide collegeId"})
 
       
@@ -48,4 +49,4 @@ const createintern = async function(req,res){
     }
 }
 
-module.exports={createintern}
+module.exports.createintern=createintern

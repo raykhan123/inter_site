@@ -1,5 +1,5 @@
 const collegeModel = require("../models/collegeModel")
-const interModel = require("../models/InternModel")
+const interModel = require("../models/internModel")
 
 //<-----------This is used for Validation of Attributes-------------------->//
 
@@ -45,4 +45,4 @@ const createCollege = async function (req, res) {
     }
 }
 
-module.exports.createAuthor = createCollege
+module.exports.createCollege = createCollege
