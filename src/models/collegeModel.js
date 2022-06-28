@@ -13,7 +13,7 @@ const collegeSchema = new mongoose.Schema({
     },
     logoLink:{
         type: String,
-        required: 'URL can\'t be empty',
+        required: true,
     },
     isDeleted:{
         type:Boolean,

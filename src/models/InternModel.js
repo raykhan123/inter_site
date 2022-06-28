@@ -11,19 +11,19 @@ const internSchema = new mongoose.Schema({
         required: "email is mandatory",
         unique: true,
         lowercase: true,
-        validate: {
-            validator: function (email) {
-                return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
-            }, message: 'Please fill a valid email address', isAsync: false
-        }
+        // validate: {
+        //     validator: function (email) {
+        //         return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+        //     }, message: 'Please fill a valid email address', isAsync: false
+        // }
     },
     mobile: {
         type: Number,
         required: "mobile is mandatory",
         unique: true,
-        match: /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
-        min: 10,
-        max: 10
+        // match: /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
+        // min: 10,
+        // max: 10
     },
     collegeId: {
         type: ObjectId,
