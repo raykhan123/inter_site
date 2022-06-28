@@ -9,6 +9,7 @@ let isValidMobile = function (number) {
 const createintern = async function(req,res){
     try{
         let data = req.body
+<<<<<<< HEAD
         if(Object.keys(data).length==0)
         return res.status(400).send({status:false,msg:"please provide data"})
 
@@ -35,6 +36,9 @@ const createintern = async function(req,res){
         return res.status(400).send({status:false,msg:"please provide collegeId"})
 
         let saveData = await interModel.create(data)
+=======
+       let saveData = await interModel.create(data)
+>>>>>>> b570ce79d5e85a240b576fc3d977b8a3c0b5537f
         res.status(200).send({status:true, data:saveData})
     }
     catch(error){
