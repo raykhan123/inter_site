@@ -1,7 +1,8 @@
 let validator = require('validator'); //require validator form npm
 const mongoose = require('mongoose'); //require mongoose form mongoose
 const collegeModel = require("../models/collegeModel")
-const internModel = require("../models/internModel")
+const internModel = require("../models/internModel");
+const { find } = require('../models/collegeModel');
 const ObjectId = mongoose.Types.ObjectId;
 //<----------------------------create a fucntion for checking up typeof and lenghth----------------->//
 
@@ -69,3 +70,48 @@ const createintern = async function (req, res) {
 }
 
 module.exports = { createintern }
+
+
+const  getInterns = async function (req, res){
+try {
+   
+    
+    let query = req.query
+    let getDetails = await collegeModel.findOne(query).select({name:1,fullName:1,logoLink:1,_id:1})
+    let collegeId=getDetails._id
+    //  intern.name =collegeId.name
+    //  intern.fullName = collegeId.fullName
+    //  intern.logoLink =collegeId.logoLink
+    //  console.log(intern);
+   
+    let internDetails = await internModel.find({collegeId:collegeId}).select({name:1,email:1,mobile:1})
+
+    let name = getDetails.name;
+    let  fullName = getDetails.fullName;
+    let  logoLink = getDetails.logoLink;
+
+    let  collegeData ={
+        name:name,
+        fullName:fullName,
+        logoLink:logoLink,
+        intern:internDetails
+    }
+     
+   res.status(200).send({ status: true, data: collegeData})
+     
+    
+}  
+catch (error) {
+    console.log(error.message)
+    res.status(500).send({ status: false, msg: error.message })
+
+}
+}
+   
+module.exports.getInterns = getInterns
+
+
+
+
+
+
