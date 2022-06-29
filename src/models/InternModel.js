@@ -20,9 +20,9 @@ const internSchema = new mongoose.Schema({
         // }
     },
     mobile: {
-        type: Number,
+        type:Number,
         required:true,
-        unique: true,
+        unique:true,
         trim:true
         // match: /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
         // min: 10,
