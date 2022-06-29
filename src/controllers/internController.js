@@ -34,23 +34,16 @@ const createintern = async function (req, res) {
         if (!validator.isEmail(data.email))
             return res.status(400).send({ status: false, msg: "please input proper format - eg'name@gmail.com'" })
 
-        // let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-        // let mailtest = data.email
-        // let emailValidate = regex.test(mailtest)
-
-        // if(!emailValidate)
-        // return res.status(400).send({status:false,msg:"please provide valid email"})
-        let emailCheck = await interModel.findOne({ email: data.email })
-        if (!emailCheck)
+        let emailCheck = await internModel.findOne({ email: data.email })
+        if (emailCheck)
             return res.status(400).send({ status: false, msg: "This email-Id is already use" })
-
 
         if (!data.mobile)
             return res.status(400).send({ status: false, msg: "please provide mobile" })
         if (!isValidMobile(data.mobile))
             return res.status(400).send({ status: false, msg: "please input 10 digit number" })
-        let mobileNumberCheck = await interModel.findOne({ mobile: data.mobile })
-        if (!mobileNumberCheck)
+        let mobileNumberCheck = await internModel.findOne({ mobile: data.mobile })
+        if (mobileNumberCheck)
             return res.status(400).send({ status: false, msg: "Mobile number already use" })
 
 
@@ -58,17 +51,8 @@ const createintern = async function (req, res) {
         if (!collegeNamecheck)
             return res.status(400).send({ status: false, msg: "college name does't exits" })
 
-        collegedata = collegeNamecheck._id.tostring();
+        let collegedata = collegeNamecheck._id.toString();
         data.collegeId = collegedata
-
-
-        // if (!data.collegeId)
-        //     return res.status(400).send({ status: false, msg: "please provide collegeId" })
-
-        // //<----------------------------check collegeId number------------------------------->
-        // if (!mongoose.isObjectIdOrHexString(data.collegeId))
-        //     return res.status(400).send({ status: false, msg: "collegeId number's is incorrect" })
-
 
         let saveData = await internModel.create(data)
 
@@ -76,7 +60,7 @@ const createintern = async function (req, res) {
     }
     catch (error) {
         console.log(error.message)
-        res.satus(500).send({ status: false, msg: error.message })
+        res.status(500).send({ status: false, msg: error.message })
 
     }
 }
