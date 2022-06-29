@@ -2,7 +2,7 @@ let validator = require('validator'); //require validator form npm
 const mongoose = require('mongoose'); //require mongoose form mongoose
 const collegeModel = require("../models/collegeModel")
 const internModel = require("../models/internModel")
-
+const ObjectId = mongoose.Types.ObjectId;
 //<----------------------------create a fucntion for checking up typeof and lenghth----------------->//
 
 const isvalid = function (value) {
@@ -46,16 +46,19 @@ const createintern = async function (req, res) {
         if (mobileNumberCheck)
             return res.status(400).send({ status: false, msg: "Mobile number already use" })
 
-
+            
         let collegeNamecheck = await collegeModel.findOne({ name: collegeName })
+       
         if (!collegeNamecheck)
             return res.status(400).send({ status: false, msg: "college name does't exits" })
 
-        let collegedata = collegeNamecheck._id.toString();
-        data.collegeId = collegedata
-
+        let collegedata = collegeNamecheck._id;
+        // let Objectid = mongoose.Types.ObjectId(collegedata)
+        // console.log(Objectid );
+        data.collegeId =  collegedata
+        
         let saveData = await internModel.create(data)
-
+      console.log(saveData );
         res.status(201).send({ status: true, data: saveData })
     }
     catch (error) {
