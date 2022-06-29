@@ -5,19 +5,23 @@ const collegeSchema = new mongoose.Schema({
     name:{
         type:String,
         require:true,
-        unique:true
+        unique:true,
+        trim:true
     },
     fullName:{
         type:String,
-        require:true
+        require:true,
+        trim:true
     },
     logoLink:{
         type: String,
         required: true,
+        trim:true
     },
     isDeleted:{
         type:Boolean,
-        default:false
+        default:false,
+        trim:true
     }
 
 

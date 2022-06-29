@@ -4,13 +4,15 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 const internSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: "Name is mandatory"
+        required:true,
+        trim:true
     },
     email: {
         type: String,
-        required: "email is mandatory",
+        required:true,
         unique: true,
         lowercase: true,
+        trim:true
         // validate: {
         //     validator: function (email) {
         //         return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
@@ -19,8 +21,9 @@ const internSchema = new mongoose.Schema({
     },
     mobile: {
         type: Number,
-        required: "mobile is mandatory",
+        required:true,
         unique: true,
+        trim:true
         // match: /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
         // min: 10,
         // max: 10
@@ -28,13 +31,15 @@ const internSchema = new mongoose.Schema({
     collegeId: {
         type: ObjectId,
         ref: "College",
-        required: "CollageId is mandatory"
+        required: true,
+        trim:true
     },
     isDeleted: {
         type: Boolean,
-        default: false
+        default: false,
+        trim:true
     }
 
 }, { timestamps: true });
 
-module.exports = mongoose.model('College', internSchema)
+module.exports = mongoose.model('Intern', internSchema)
