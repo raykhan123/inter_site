@@ -33,7 +33,7 @@ const createCollege = async function (req, res) {
       if(duplicate) return res.status(400).send({status: false, msg : "Name Already Exist."}) 
       //<-------Validation of fullName----------->//
     if (!valid(college.fullName)) return res.status(400).send({ status: false, message: "Please Use Alphabets in fullName"})
-    name=/^[A-Za-z ]+$/.test(college.fullName)
+    name=/^[A-Za-z &]+$/.test(college.fullName)
     if(!name) return res.send({ status: false, message: "Please Use Alphabets in fullName"  })
     
      //<-------Validation of logolink----------->//

@@ -24,13 +24,22 @@ let isValidMobile = function (number) {
 const createintern = async function (req, res) {
     try {
         let data = req.body
-        let collegeName = req.body.collegeName
 
         if (Object.keys(data).length <= 0)
             return res.status(400).send({ status: false, msg: "please provide data" })
 
-        if (!data.name)
+        let collegeName = req.body.collegeName
+        if(!collegeName) return res.status(400).send({status : false, msg : "Please provide the college name"})
+        let Validation=/^[A-Za-z ]+$/.test(collegeName.trim())
+        if(!Validation) return res.status(400).send({status : false, msg : "Please Use Alphabets in college name"})
+       
+        collegeName.toLowerCase();
+
+         if (!data.name)
             return res.status(400).send({ status: false, msg: "please provide name" })
+            let Valid=/^[A-Za-z ]+$/.test(data.name.trim())
+            if(!Valid) return res.status(400).send({status : false, msg : "Please Use Alphabets in name"})
+           
         if (!isvalid(data.name))
             return res.status(400).send({ status: false, msg: "please provide alphabetic character" })
 
@@ -80,8 +89,9 @@ const  getInterns = async function (req, res){
 try {
    
     
-    let query = req.query.name.toLowerCase();
+    let query = req.query.collegeName
      if(!query) return res.status(400).send({status : false, msg : "Please provide the college name"})
+      query.toLowerCase();
     //if(!isvalid(query)) return res.status(400).send({ status: false, message: "Please Use Alphabets in  name" })
      let Validation=/^[A-Za-z ]+$/.test(query.trim())
      if(!Validation) return res.status(400).send({status : false, msg : "Please Use Alphabets in name"})
