@@ -38,8 +38,8 @@ const createCollege = async function (req, res) {
     
      //<-------Validation of logolink----------->//
      if (!valid(college.logoLink)) return res.status(400).send({ status: false, message: "Please enter logoLink"})
-    //  name=/^[A-Za-z]+$/.test(college.logoLink)
-    //  if(!name) return res.send({ status: false, message: "Please enter logoLink"  })
+     name=/^[0-9]+$/.test(college.logoLink)
+     if(name) return res.send({ status: false, message: "Please enter logoLink"  })
      
         //<-------Creation Creation----------->//
     

@@ -25,6 +25,12 @@ const createintern = async function (req, res) {
     try {
         let data = req.body
 
+//<------Checking Whether Request Body is empty or not----------->//
+if(!(data.name && data.email && data.mobile) ){
+    return res.status(400).send({status : false, msg : "All fields are mandatory."})
+}
+
+        //----------------------------------------//
         if (Object.keys(data).length <= 0)
             return res.status(400).send({ status: false, msg: "please provide data" })
 
@@ -67,12 +73,11 @@ const createintern = async function (req, res) {
             return res.status(400).send({ status: false, msg: "college name does't exits" })
 
         let collegedata = collegeNamecheck._id;
-        // let Objectid = mongoose.Types.ObjectId(collegedata)
-        // console.log(Objectid );
+
         data.collegeId =  collegedata
         
         let saveData = await internModel.create(data)
-      console.log(saveData );
+     
         res.status(201).send({ status: true, data: saveData })
     }
     catch (error) {
@@ -92,9 +97,9 @@ try {
     let query = req.query.collegeName
      if(!query) return res.status(400).send({status : false, msg : "Please provide the college name"})
       query.toLowerCase();
-    //if(!isvalid(query)) return res.status(400).send({ status: false, message: "Please Use Alphabets in  name" })
+    
      let Validation=/^[A-Za-z ]+$/.test(query.trim())
-     if(!Validation) return res.status(400).send({status : false, msg : "Please Use Alphabets in name"})
+     if(!Validation) return res.status(400).send({status : false, msg : "Please Use Alphabets in college name"})
     
     let getDetails = await collegeModel.findOne({name:query}).select({name:1,fullName:1,logoLink:1,_id:1})
     if(!getDetails) return res.status(400).send({status : false, msg : "No such college found"})
