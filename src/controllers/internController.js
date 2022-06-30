@@ -2,15 +2,19 @@ let validator = require('validator'); //require validator form npm
 const mongoose = require('mongoose'); //require mongoose form mongoose
 const collegeModel = require("../models/collegeModel")
 const internModel = require("../models/internModel");
-const { find } = require('../models/collegeModel');
+
 const ObjectId = mongoose.Types.ObjectId;
 //<----------------------------create a fucntion for checking up typeof and lenghth----------------->//
 
-const isvalid = function (value) {
-    if (!value || typeof value != "string" || value.trim().length == 0) return false
+let isvalid = function (value) {
+    if (typeof value == "undefined" || typeof value == null || typeof value === "number" || value.trim().length == 0) {
+        return false
+    }
+    if (typeof value == "string") {
+        return true
+    }
     return true
 }
-
 //<---------------------------------define callback function for mobilePhone----------------------->//
 let isValidMobile = function (number) {
     let mobileRegex = /^[6-9]{1}[0-9]{9}$/;
@@ -76,16 +80,21 @@ const  getInterns = async function (req, res){
 try {
    
     
-    let query = req.query
-    let getDetails = await collegeModel.findOne(query).select({name:1,fullName:1,logoLink:1,_id:1})
+    let query = req.query.name.toLowerCase();
+     if(!query) return res.status(400).send({status : false, msg : "Please provide the college name"})
+    //if(!isvalid(query)) return res.status(400).send({ status: false, message: "Please Use Alphabets in  name" })
+     let Validation=/^[A-Za-z ]+$/.test(query.trim())
+     if(!Validation) return res.status(400).send({status : false, msg : "Please Use Alphabets in name"})
+    
+    let getDetails = await collegeModel.findOne({name:query}).select({name:1,fullName:1,logoLink:1,_id:1})
+    if(!getDetails) return res.status(400).send({status : false, msg : "No such college found"})
+    
     let collegeId=getDetails._id
-    //  intern.name =collegeId.name
-    //  intern.fullName = collegeId.fullName
-    //  intern.logoLink =collegeId.logoLink
-    //  console.log(intern);
+ 
    
     let internDetails = await internModel.find({collegeId:collegeId}).select({name:1,email:1,mobile:1})
-
+    if(internDetails.length==0) return res.status(400).send({status : false, msg : `no interns found in ${query}`})
+    
     let name = getDetails.name;
     let  fullName = getDetails.fullName;
     let  logoLink = getDetails.logoLink;
@@ -96,6 +105,7 @@ try {
         logoLink:logoLink,
         intern:internDetails
     }
+    
      
    res.status(200).send({ status: true, data: collegeData})
      
@@ -109,9 +119,3 @@ catch (error) {
 }
    
 module.exports.getInterns = getInterns
-
-
-
-
-
-
